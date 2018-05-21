@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-var server = require('http').Server(app);
+var server = app.listen(port, () => console.log(`Listening on port ${port}`));
 var io = require('socket.io')(server); //require socket.io module and pass the http object (server)
 var path = require("path");
 var Gpio = require('pigpio').Gpio, //include pigpio to interact with the GPIO
@@ -39,4 +39,3 @@ process.on('SIGINT', function () { //on ctrl+c
     process.exit(); //exit completely
 });
 app.use(express.static(path.join(__dirname, "./public")));
-app.listen(port, () => console.log(`Listening on port ${port}`));
