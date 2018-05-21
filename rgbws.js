@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-var server = app.listen(port, () => console.log(`Listening on port ${port}`));
+var server = app.listen(port, () => console.log(`Listening on port http://localhost:${port}`));
 var io = require('socket.io')(server); //require socket.io module and pass the http object (server)
 var path = require("path");
 var Gpio = require('pigpio').Gpio, //include pigpio to interact with the GPIO
