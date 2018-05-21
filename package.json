@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/gagansharma18/J.A.R.V.I.S./issues"
   },
-  "homepage": "https://github.com/gagansharma18/J.A.R.V.I.S.#readme"
+  "homepage": "https://github.com/gagansharma18/J.A.R.V.I.S.#readme",
+  "dependencies": {
+    "socket.io": "^2.1.1"
+  }
 }
