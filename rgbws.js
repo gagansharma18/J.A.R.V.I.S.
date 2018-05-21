@@ -30,7 +30,7 @@ function handler (req, res) { //what to do on requests to port 8080
 
 io.sockets.on('connection', function (socket) {// Web Socket Connection
     socket.on('rgbLed', function(data) { //get light switch status from client
-        console.log(data); //output data from WebSocket connection to console
+        //console.log(data); //output data from WebSocket connection to console
 
         //for common cathode RGB LED 0 is fully off, and 255 is fully on
         redRGB=parseInt(data.red);
