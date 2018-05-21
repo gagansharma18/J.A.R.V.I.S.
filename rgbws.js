@@ -1,5 +1,8 @@
-var http = require('http').createServer(handler); //require http server, and create server with function handler()
-var fs = require('fs'); //require filesystem module
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 8080;
+var path = require("path");
+
 var io = require('socket.io')(http) //require socket.io module and pass the http object (server)
 var Gpio = require('pigpio').Gpio, //include pigpio to interact with the GPIO
     ledRed = new Gpio(27, {mode: Gpio.OUTPUT}), //use GPIO pin 27 as output for RED
@@ -13,20 +16,6 @@ var Gpio = require('pigpio').Gpio, //include pigpio to interact with the GPIO
 ledRed.digitalWrite(0); // Turn RED LED off
 ledGreen.digitalWrite(0); // Turn GREEN LED off
 ledBlue.digitalWrite(0); // Turn BLUE LED off
-
-http.listen(8080); //listen to port 8080
-
-function handler (req, res) { //what to do on requests to port 8080
-    fs.readFile(__dirname + '/public/rgb.html', function(err, data) { //read file rgb.html in public folder
-        if (err) {
-            res.writeHead(404, {'Content-Type': 'text/html'}); //display 404 on error
-            return res.end("404 Not Found");
-        }
-        res.writeHead(200, {'Content-Type': 'text/html'}); //write HTML
-        res.write(data); //write data from rgb.html
-        return res.end();
-    });
-}
 
 io.sockets.on('connection', function (socket) {// Web Socket Connection
     socket.on('rgbLed', function(data) { //get light switch status from client
@@ -49,3 +38,5 @@ process.on('SIGINT', function () { //on ctrl+c
     ledBlue.digitalWrite(0); // Turn BLUE LED off
     process.exit(); //exit completely
 });
+app.use(express.static(path.join(__dirname, "./public")));
+app.listen(port, () => console.log(`Listening on port ${port}`));

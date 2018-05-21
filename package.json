@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/gagansharma18/J.A.R.V.I.S.#readme",
   "dependencies": {
+    "express": "^4.16.3",
     "socket.io": "^2.1.1"
   }
 }
