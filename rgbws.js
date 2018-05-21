@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
+var server = require('http').Server(app);
+var io = require('socket.io')(server); //require socket.io module and pass the http object (server)
 var path = require("path");
-
-var io = require('socket.io')(http) //require socket.io module and pass the http object (server)
 var Gpio = require('pigpio').Gpio, //include pigpio to interact with the GPIO
     ledRed = new Gpio(27, {mode: Gpio.OUTPUT}), //use GPIO pin 27 as output for RED
     ledGreen = new Gpio(17, {mode: Gpio.OUTPUT}), //use GPIO pin 17 as output for GREEN
