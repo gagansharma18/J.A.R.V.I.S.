@@ -2,4 +2,9 @@
 This is small project I'm using with raspberry pi
 
 for https
-openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+
+https://www.kevinleary.net/self-signed-trusted-certificates-node-js-express-js/
+
+
+openssl genrsa -out localhost.key 2048
+openssl req -new -x509 -key localhost.key -out localhost.cert -days 3650 -subj /CN=localhost
