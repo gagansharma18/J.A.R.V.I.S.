@@ -7,8 +7,8 @@ const app = express();
 
 const https = require('https');
 const options = {
-    key: fs.readFileSync(path.join(__dirname,'localhostkeys/key.pem') ),
-    cert: fs.readFileSync(path.join(__dirname,'localhostkeys/cert.pem') ),
+    key: fs.readFileSync(path.join(__dirname,'localhostkeys/localhost.key') ),
+    cert: fs.readFileSync(path.join(__dirname,'localhostkeys/localhost.cert') ),
     requestCert: false,
     rejectUnauthorized: false
 };
