@@ -17,7 +17,7 @@ const server = https.createServer( options, app );
 server.listen( port, () => {
     console.log( 'Express server listening on port ' + server.address().port );
 } );
-
+var io = require('socket.io')(server); //require socket.io module and pass the http object (server)
 var Gpio = require('pigpio').Gpio, //include pigpio to interact with the GPIO
     ledRed = new Gpio(27, {mode: Gpio.OUTPUT}), //use GPIO pin 27 as output for RED
     ledGreen = new Gpio(17, {mode: Gpio.OUTPUT}), //use GPIO pin 17 as output for GREEN
