@@ -1,9 +1,23 @@
+const fs = require('fs');
+const path = require("path");
+const port = process.env.PORT || 8080;
+
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 8080;
-var server = app.listen(port, () => console.log(`Listening on port http://localhost:${port}`));
-var io = require('socket.io')(server); //require socket.io module and pass the http object (server)
-var path = require("path");
+
+const https = require('https');
+const options = {
+    key: fs.readFileSync(path.join(__dirname,'localhostkeys/key.pem') ),
+    cert: fs.readFileSync(path.join(__dirname,'localhostkeys/cert.pem') ),
+    requestCert: false,
+    rejectUnauthorized: false
+};
+const server = https.createServer( options, app );
+
+server.listen( port, () => {
+    console.log( 'Express server listening on port ' + server.address().port );
+} );
+
 var Gpio = require('pigpio').Gpio, //include pigpio to interact with the GPIO
     ledRed = new Gpio(27, {mode: Gpio.OUTPUT}), //use GPIO pin 27 as output for RED
     ledGreen = new Gpio(17, {mode: Gpio.OUTPUT}), //use GPIO pin 17 as output for GREEN
