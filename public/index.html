@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="js/artyom.window.min.js"></script>
+<link rel="stylesheet" href="css/style.css" type="text/css"/>
+
+<body>
+<div class="w3-container">
+    <h1>RGB Color</h1>
+    <div class="w3-cell-row">
+        <div class="w3-container w3-cell w3-mobile">
+            <p><input type="range" min="0" max="255" value="0" class="slider" id="redSlider"></p>
+            <p><input type="range" min="0" max="255" value="0" class="slider" id="greenSlider"></p>
+            <p><input type="range" min="0" max="255" value="0" class="slider" id="blueSlider"></p>
+        </div>
+        <div class="w3-container w3-cell w3-mobile" style="background-color:black" id="colorShow">
+            <div></div>
+        </div>
+    </div>
+    <p>Or pick a color: <input type="color" id="pickColor"></p>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://www.w3schools.com/lib/w3color.js"></script>
+<script>
+    var socket = io(); //load socket.io-client and connect to the host that serves the page
+    var rgb = w3color("rgb(0,0,0)"); //we use the w3color.js library to keep the color as an object
+    window.addEventListener("load", function(){ //when page loads
+        var rSlider = document.getElementById("redSlider");
+        var gSlider = document.getElementById("greenSlider");
+        var bSlider = document.getElementById("blueSlider");
+        var picker = document.getElementById("pickColor");
+
+        rSlider.addEventListener("change", function() { //add event listener for when red slider changes
+            rgb.red = this.value; //update the RED color according to the slider
+            colorShow.style.backgroundColor = rgb.toRgbString(); //update the "Current color"
+            socket.emit("rgbLed", rgb); //send the updated color to RGB LED via WebSocket
+        });
+        gSlider.addEventListener("change", function() { //add event listener for when green slider changes
+            rgb.green = this.value; //update the GREEN color according to the slider
+            colorShow.style.backgroundColor = rgb.toRgbString(); //update the "Current color"
+            socket.emit("rgbLed", rgb); //send the updated color to RGB LED via WebSocket
+        });
+        bSlider.addEventListener("change", function() { //add event listener for when blue slider changes
+            rgb.blue = this.value;  //update the BLUE color according to the slider
+            colorShow.style.backgroundColor = rgb.toRgbString(); //update the "Current color"
+            socket.emit("rgbLed", rgb); //send the updated color to RGB LED via WebSocket
+        });
+        picker.addEventListener("input", function() { //add event listener for when colorpicker changes
+            rgb.red = w3color(this.value).red; //Update the RED color according to the picker
+            rgb.green = w3color(this.value).green; //Update the GREEN color according to the picker
+            rgb.blue = w3color(this.value).blue; //Update the BLUE color according to the picker
+            colorShow.style.backgroundColor = rgb.toRgbString();  //update the "Current color"
+            rSlider.value = rgb.red;  //Update the RED slider position according to the picker
+            gSlider.value = rgb.green;  //Update the GREEN slider position according to the picker
+            bSlider.value = rgb.blue;  //Update the BLUE slider position according to the picker
+            socket.emit("rgbLed", rgb);  //send the updated color to RGB LED via WebSocket
+        });
+    });
+
+
+/*
+    Indian version of Female Replacement Intelligent Digital Assisant Youth (F.R.I.D.A.Y.)
+    The F.R.I.D.A.Y A.I was first installed into TONY STARK's the Mark 45 in Avengers Tower.
+    The suit schematic changed from red to blue showing that she had been uploaded successfully.
+    During the battle, she gave Tony constant updates on the situation and ran the numbers to
+    theorize his plan for a heat seal to destroy Novi Grad.
+*/
+    var FRIDAY = new Artyom();
+    window.onload = function(){
+        FRIDAY.initialize({
+            // Run "forever"
+            continuous: true,
+            lang:"hi-IN",
+            debug:false,
+            mode:"normal",
+            soundex:false,
+            listen: true,
+            name:"फ्राइडे",
+            //executionKeyword:"and do it now",
+        }).then(res=>{
+            console.log("FRIDAY A.I. LOADED");
+            FRIDAY.say("हाय मैं फ्राइडे हूं!");
+            FRIDAY.say("आपकी क्या सेवा कर सकती हूं!");
+        });
+
+
+//red,blue,green,हरा,लाल,पीला,हरी,पीली
+//"* रंग की बत्ती चलाओ,"* रंग की बत्ती जलाओ,"* रंग की बत्ती ऑन करो,"* रंग की बत्ती चालू करो
+//बुझाओ,बंद करो,ऑफ करो,बंद करो
+
+        var red_words =["red","लाल"];
+        var blue_words =["blue","नीला","नीली"];
+        var green_words =["green","हरा","हरी"];
+        var on_commands =[
+            "* LED चलाओ","* LED जलाओ","* LED ऑन करो","* LED चालू करो",
+            "* बत्ती चलाओ","* बत्ती जलाओ","* बत्ती ऑन करो","* बत्ती चालू करो",
+            "* रंग की LED चलाओ","* रंग की LED जलाओ","* रंग की LED ऑन करो","* रंग की LED चालू करो",
+            "* रंग की बत्ती चलाओ","* रंग की बत्ती जलाओ","* रंग की बत्ती ऑन करो","* रंग की बत्ती चालू करो"
+        ];
+        var off_commands =[
+            "* LED बुझाओ","* LED बंद करो","* LED ऑफ करो","* LED बंद करो",
+            "* बत्ती बुझाओ","* बत्ती बंद करो","* बत्ती ऑफ करो","* बत्ती बंद करो",
+            "* रंग की LED बुझाओ","* रंग की LED बंद करो","* रंग की LED ऑफ करो","* रंग की LED बंद करो",
+            "* रंग की बत्ती बुझाओ","* रंग की बत्ती बंद करो","* रंग की बत्ती ऑफ करो","* रंग की बत्ती बंद करो"
+        ];
+
+        var colors={"red":0,"blue":0,"green":0};
+        FRIDAY.addCommands({
+            //The smart property of the command needs to be true
+            smart:true,
+            indexes: on_commands.concat(off_commands),
+            action: function(i, wildcard){
+                let color;
+                if(red_words.indexOf(wildcard.trim()) >= 0){
+                    color = "red";
+                }
+                if(blue_words.indexOf(wildcard.trim()) >= 0){
+                    color = "blue";
+                }
+                if(green_words.indexOf(wildcard.trim()) >= 0){
+                    color = "green";
+                }
+
+                if(i >= 0 && i < on_commands.length){ //checking index of ON commands
+                    colors[color] = 255;
+                }else{
+                    colors[color] = 0;
+                }
+                // Speak alterable value
+                socket.emit("rgbLed", colors); //send the updated color to RGB LED via WebSocket
+                FRIDAY.say("लो कर दिया");
+            }
+        });
+
+        FRIDAY.redirectRecognizedTextOutput((recognized,isFinal) => {
+            if(isFinal){
+                console.log("REC",recognized);
+            }
+        });
+    };
+</script>
+</body>
+</html>
