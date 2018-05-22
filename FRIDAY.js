@@ -9,6 +9,7 @@ const https = require('https');
 const options = {
     key: fs.readFileSync(path.join(__dirname,'localhostkeys/key.pem') ),
     cert: fs.readFileSync(path.join(__dirname,'localhostkeys/cert.pem') ),
+    passphrase: 's#cR3T'
     requestCert: false,
     rejectUnauthorized: false
 };
